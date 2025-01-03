@@ -32,7 +32,12 @@ Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/admin/users', [AdminController::class, 'handleUsers']);
 Route::get('/admin/categories', [AdminController::class, 'categories']);
 Route::get('/admin/testimonials', [AdminController::class, 'testimonials']);
-Route::get('/admin/projects', [AdminController::class, 'projects']);
+Route::get('/admin/projects', [AdminController::class, 'projectsMethod']);
+Route::get('/admin/projects/remove', [AdminController::class, 'removePro']);
+Route::get('/admin/users/remove', [AdminController::class, 'removeUser']);
+Route::get('/admin/users/block', [AdminController::class, 'blockUser']);
+Route::get('/admin/categories', [AdminController::class, 'showCats']);
+
 
 
 

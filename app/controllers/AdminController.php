@@ -48,47 +48,79 @@ class AdminController extends BaseController {
     $this->renderDashboard('admin/users',["users"=> $users]);
    }
 
-    // function to remove user
-    // function removeUser($idUser){
-    //     include '../connection.php';
-    //     $removeUser = $conn->prepare("DELETE FROM utilisateurs WHERE id_utilisateur=?");
-    //     $removeUser->execute([$idUser]);
-    // }
+   //  function to remove user
+    function removeUser(){
+      //   include '../connection.php';
+      
+      if (isset($_GET["remove_user"])){
+         $this ->  UserModel -> removeUser($_GET["remove_user"]);
+         $filter = isset($_GET['filter']) ? $_GET['filter'] : 'all'; // Default to 'all' if no filter is selected
+          // Call showUsers with both filter and search term
+          $users = $this->UserModel->getAllUsers($filter);
+           $this->renderDashboard('admin/users',["users"=> $users]);
+      }
+    }
+
+      function blockUser(){
+             if (isset($_GET['block_user_id'])) {
+        $idUser = $_GET['block_user_id'];
+       $this -> UserModel -> changeStatus($idUser);
+        // Redirect to avoid form resubmission after page reload
+        $filter = isset($_GET['filter']) ? $_GET['filter'] : 'all'; // Default to 'all' if no filter is selected
+        // Call showUsers with both filter and search term
+        $users = $this->UserModel->getAllUsers($filter);
+        $this->renderDashboard('admin/users',["users"=> $users]);
+
+    }
+      }
+   //  show categories
+      function showCats(){
+         $results = $this -> UserModel -> getCategoriesWithSubcategories();
+         $categories = [];
+            foreach ($results as $row) {
+                $id_categorie = $row['id_categorie'];
     
-    // // check the post request to remove the user
-    // if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['remove_user'])) {
-    //     $idUser = $_POST['remove_user'];
-    //     removeUser($idUser);
-    //     // Redirect to avoid form resubmission after page reload
-    //     header("Location: users.php");
-    //     exit();
-    // }
+                // Initialize category if not present
+                if (!isset($categories[$id_categorie])) {
+                    $categories[$id_categorie] = [
+                        'id_categorie' => $id_categorie,
+                        'nom_categorie' => $row['nom_categorie'],
+                        'sous_categories' => []
+                    ];
+                }
+    
+                // Add subcategories
+                if (!empty($row['id_sous_categorie'])) {
+                    $categories[$id_categorie]['sous_categories'][] = [
+                        'id_sous_categorie' => $row['id_sous_categorie'],
+                        'nom_sous_categorie' => $row['nom_sous_categorie']
+                    ];
+                }
+            }
+            $this->renderDashboard('admin/categories',["categories"=> $categories]);
+      }
+      // projects function 
+      function projectsMethod(){
+         // Get filter and search values from GET
+    $filter_by_cat = isset($_GET['filter_by_cat']) ? $_GET['filter_by_cat'] : 'all';
+    $filter_by_sub_cat = isset($_GET['filter_by_sub_cat']) ? $_GET['filter_by_sub_cat'] : 'all';
+    $projectToSearch = isset($_GET['projectToSearch']) ? $_GET['projectToSearch'] : '';
+    $filter_by_status = isset($_GET['filter_by_status']) ? $_GET['filter_by_status'] : '';
 
-    // // function to block user
-    // function changeStatus($idUser){
-    //     include '../connection.php';
-
-    //     // get the old status
-    //     $stmt = $conn->prepare("SELECT is_active FROM utilisateurs WHERE id_utilisateur = ?");
-    //     $stmt->execute([$idUser]);
-    //     $currentStatus = $stmt->fetchColumn();
-
-    //     $changeStatus = $conn->prepare("UPDATE utilisateurs SET is_active=? WHERE id_utilisateur=?");
-    //     $changeStatus->execute([$currentStatus==0?1:0,$idUser]);
-    // }
-    // // check the post request to block the user
-    // if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['block_user_id'])) {
-    //     $idUser = $_POST['block_user_id'];
-    //     changeStatus($idUser);
-    //     // Redirect to avoid form resubmission after page reload
-    //     header("Location: users.php");
-    //     exit();
-    // }
-
-
-
-
-
+    
+    // Call showProjects with both filters and the search term
+    $projects =$this -> UserModel -> showProjects($filter_by_cat, $filter_by_sub_cat,$filter_by_status, $projectToSearch) ;
+    $this->renderDashboard('admin/projects',["projects"=> $projects]);
+      }
+      function removePro(){
+         var_dump("get");
+         if (isset($_GET['remove_project'])) {
+            $idUser = $_GET['id_projet'];
+            $this -> UserModel -> removeProject($idUser);
+            // Redirect to avoid form resubmission after page reload
+            $this->renderDashboard('admin/projects');
+        }
+      }
  
 
 }

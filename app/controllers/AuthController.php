@@ -45,7 +45,7 @@ class AuthController extends BaseController {
                  $_SESSION['user_loged_in_role'] = $role;
  
                  if ($lastInsertId && $role == 1) {
-                     header('Location: admin/dashboard');
+                     header('Location: /admin');
                  } else if ($lastInsertId && $role == 2) {
                      header('Location: client/dashboard');
                  } else if ($lastInsertId && $role == 3) {
@@ -73,7 +73,7 @@ class AuthController extends BaseController {
               $_SESSION['user_loged_in_nome'] = $user['nom_utilisateur'];
   
               if ($user && $role == 1) {
-                  header('Location: /admin/dashboard');
+                  header('Location: /admin');
               } else if ($user && $role == 2) {
                   header('Location: Client/dashboard.php');
               } else if ($user && $role == 3) {
