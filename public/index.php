@@ -55,6 +55,7 @@ Route::get('/client/projects', [ClientController::class, 'projects']);
 Route::get('/client/projects/remove', [ClientController::class, 'removePro']);
 Route::get('/client/projects/addmodproject', [ClientController::class, 'addModPro']);
 Route::get('/client/offers', [ClientController::class, 'clientOffer']);
+Route::get('/client/offers/accept', [ClientController::class, 'acceptOffer']);
 // client Routes 
 // Route::get('/client/dashboard', [ClientController::class, 'index']);
 

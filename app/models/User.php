@@ -338,4 +338,11 @@ public function removeUser($userId){
     
         return $id_offre_having_testimonial;
     }
+    // accept offer
+    function acceptOffre($idOffre){
+        $acceptOffre = $this -> conn->prepare("UPDATE offres
+                                        SET status=2
+                                        WHERE id_offre=?");
+        $acceptOffre->execute([$idOffre]);
+    }
 }

@@ -38,7 +38,7 @@
                                     <td class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200 flex justify-evenly">
                                         <!-- accept offre -->
                                         <?php if($client_offer['status']!=2){?>
-                                        <form method="POST" action="../controllers/offres/accepte_offre.php" class="mb-0" onsubmit="return confirm('Are you sure you want to accept this offre?');">
+                                        <form method="GET" action="/client/offers/accept" class="mb-0" onsubmit="return confirm('Are you sure you want to accept this offre?');">
                                             <input type="hidden" name="id_offre" value="<?= $client_offer['id_offre']; ?>">
                                             <button type="submit" name="accept_offre" class="text-indigo-600 hover:text-indigo-900">Accept</button>
                                         </form>
@@ -57,5 +57,5 @@
                     </table>              
                 </div>
             </main>
-            
+
 <?php require_once(__DIR__.'/../../partials/footer.php');?>

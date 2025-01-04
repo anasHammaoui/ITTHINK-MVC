@@ -64,5 +64,14 @@ class ClientController extends BaseController{
     $client_offers = $this -> UserModel -> getClientOffres();
     $this -> renderDashboard("client/offers",["id_offre_having_testimonial" => $id_offre_having_testimonial, "client_offers" => $client_offers]);
     }
+    // accept offer
+    function acceptOffer(){
+        if (isset($_GET['accept_offre'])) {
+            $idOffre = (int)$_GET['id_offre'];
+            $this -> UserModel -> acceptOffre($idOffre);
+            // Redirect to avoid form resubmission after page reload
+           $this -> clientOffer();
+        }
+    }
 }
 ?>
