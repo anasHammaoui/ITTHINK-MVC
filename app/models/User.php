@@ -345,4 +345,16 @@ public function removeUser($userId){
                                         WHERE id_offre=?");
         $acceptOffre->execute([$idOffre]);
     }
+    // add modify testimonial
+    function addOrModifyTestimonial($idTemoignage, $commentaire, $idUtilisateur, $idOffre) {
+        if ($idTemoignage == 0) { // Add new testimonial
+            $query = $this -> conn->prepare("INSERT INTO temoignages (commentaire, id_utilisateur, id_offre) VALUES (?, ?, ?)");
+            $query->execute([$commentaire, $idUtilisateur, $idOffre]);
+            echo "Testimonial added successfully.";
+        } else { // Modify existing testimonial
+            $query = $this -> conn->prepare("UPDATE temoignages SET commentaire = ? WHERE id_temoignage = ?");
+            $query->execute([$commentaire, $idTemoignage]);
+            echo "Testimonial updated successfully.";
+        }
+    }
 }

@@ -73,5 +73,25 @@ class ClientController extends BaseController{
            $this -> clientOffer();
         }
     }
+    // add testi
+    function addTesti(){
+        if (isset($_GET['save_testimonial'])) {
+            // Retrieve and sanitize form inputs
+            $idTemoignage = isset($_GET['testimonial_id_input']) ? intval(trim($_GET['testimonial_id_input'])) : 0;
+            $commentaire = isset($_GET['commentaire_input']) ? trim($_GET['commentaire_input']) : '';
+            $idOffre = isset($_GET['offre_id_input']) ? intval(trim($_GET['offre_id_input'])) : 0;
+            $idUtilisateur = $_SESSION['user_loged_in_id']; // Logged-in user ID
+    
+            // Validate inputs
+            if (!empty($commentaire) && $idOffre >= 0) {
+            
+                   $this -> UserModel -> addOrModifyTestimonial($idTemoignage, $commentaire, $idUtilisateur, $idOffre);
+                   $this -> clientOffer();
+              
+            } else {
+                echo "Please fill in all required fields.";
+            }
+        }
+    }
 }
 ?>

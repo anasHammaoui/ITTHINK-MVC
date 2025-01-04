@@ -31,6 +31,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/admin/users', [AdminController::class, 'handleUsers']);
+Route::get('/admin/categories', [AdminController::class, 'showCats']);
 Route::get('/admin/categories', [AdminController::class, 'categories']);
 Route::get('/admin/categories/addmodcat', [AdminController::class, 'addCatMod']);
 Route::get('/admin/categories/addmodsubcat', [AdminController::class, 'addSubCatMod']);
@@ -42,7 +43,6 @@ Route::get('/admin/projects', [AdminController::class, 'projectsMethod']);
 Route::get('/admin/projects/remove', [AdminController::class, 'removePro']);
 Route::get('/admin/users/remove', [AdminController::class, 'removeUser']);
 Route::get('/admin/users/block', [AdminController::class, 'blockUser']);
-Route::get('/admin/categories', [AdminController::class, 'showCats']);
 
 
 
@@ -56,6 +56,7 @@ Route::get('/client/projects/remove', [ClientController::class, 'removePro']);
 Route::get('/client/projects/addmodproject', [ClientController::class, 'addModPro']);
 Route::get('/client/offers', [ClientController::class, 'clientOffer']);
 Route::get('/client/offers/accept', [ClientController::class, 'acceptOffer']);
+Route::get('/client/offers/addTesti', [ClientController::class, 'addTesti']);
 // client Routes 
 // Route::get('/client/dashboard', [ClientController::class, 'index']);
 
