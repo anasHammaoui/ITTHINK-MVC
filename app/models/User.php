@@ -274,5 +274,68 @@ public function removeUser($userId){
         $removeTestimonial = $this -> conn ->prepare("DELETE FROM temoignages WHERE id_temoignage=?");
         $removeTestimonial->execute([$idtesTimonial]);
     }
+    // ****************************clients*******************
+    // add project
+    function addPro($project_title,$project_description,$project_category,$project_subcategory){
+        try {
+            $addProjectQuery = $this -> conn->prepare("INSERT INTO projets (titre_projet, description, id_categorie, id_sous_categorie, id_utilisateur) 
+                                            VALUES (:project_title, :project_description, :project_category, :project_subcategory, :user_id)");
+            $addProjectQuery->execute([
+                ':project_title' => $project_title,
+                ':project_description' => $project_description,
+                ':project_category' => $project_category,
+                ':project_subcategory' => $project_subcategory,
+                ':user_id' => $_SESSION['user_loged_in_id']  // Use the logged-in user's ID
+            ]);
+            echo "Project added successfully!";
+            header("Location: ../../Client/my_projects.php");
+        } catch (PDOException $e) {
+            echo "Database Error: " . $e->getMessage();
+        }
+    }
+    // modify project 
+    function modifyPro($project_title,$project_description,$project_category,$project_subcategory,$project_status,$project_id){
+        try {
+            $modifyProjectQuery = $this->conn->prepare("UPDATE projets SET titre_projet = ?, description = ?, id_categorie = ?, id_sous_categorie = ?,project_status=?
+                                                WHERE id_projet = ?");
+            $modifyProjectQuery->execute([
+                $project_title, 
+                $project_description, 
+                $project_category, 
+                $project_subcategory,
+                $project_status,
+                $project_id
+            ]);
+            echo "Project updated successfully!";
+            header("Location: ../../Client/my_projects.php");
+        } catch (PDOException $e) {
+            echo "Database Error: " . $e->getMessage();
+        }
+    }
+    // show offers
+    function getClientOffres() {
+        $user_id = $_SESSION['user_loged_in_id'];
+        $query = $this -> conn->prepare("SELECT o.delai,o.montant,o.id_offre,o.id_utilisateur,o.id_projet,o.status,p.titre_projet FROM offres o
+                                JOIN projets p ON p.id_projet=o.id_projet
+                                WHERE p.id_utilisateur=?
+                                AND o.status!=3;");
+        $query->execute([$user_id]);
+        $client_offers = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        return $client_offers;
+    }
+    // show testi client 
+    function getClientTestimonialsIds() {
+        $user_id = $_SESSION['user_loged_in_id'];
+        $query = $this -> conn->prepare("SELECT o.id_offre AS id_offre_having_testimonial
+                                 FROM offres o
+                                 INNER JOIN temoignages t ON t.id_offre = o.id_offre
+                                 WHERE t.id_utilisateur = ?;");
+        $query->execute([$user_id]);
+        
+        // Fetch only the id_offre column
+        $id_offre_having_testimonial = $query->fetchAll(PDO::FETCH_COLUMN, 0);
     
+        return $id_offre_having_testimonial;
+    }
 }
