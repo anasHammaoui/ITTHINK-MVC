@@ -89,7 +89,7 @@
                                         <!-- modify button -->
                                         <button data-project-id="<?= htmlspecialchars($project['id_projet']); ?>" class="modify_project_button text-indigo-600 hover:text-indigo-900">Modify</button>
                                         <!-- Remove User Form with Confirmation -->
-                                        <form method="POST" class="mb-0" onsubmit="return confirm('Are you sure you want to remove this project?');">
+                                        <form method="GET" action="projects/remove" class="mb-0" onsubmit="return confirm('Are you sure you want to remove this project?');">
                                             <input type="hidden" name="id_projet" value="<?= $project['id_projet']; ?>">
                                             <button type="submit" name="remove_project" class="text-indigo-600 hover:text-indigo-900">Remove</button>
                                         </form>

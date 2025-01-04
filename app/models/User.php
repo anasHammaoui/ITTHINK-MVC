@@ -126,6 +126,69 @@ public function removeUser($userId){
     
             return $results;
     }
+    // add or midfy category
+    function addModCat($category_id, $category_name){
+        if (!empty($category_name)) {
+            // create a new category if id not gived
+            if($category_id==0){
+                try {
+                    $AddCategoryQuery = $this -> conn->prepare("INSERT INTO categories (nom_categorie) VALUES (:category_name)");
+                    $AddCategoryQuery->execute([':category_name' => $category_name]);
+
+                } catch (PDOException $e) {
+                    echo "Database Error: " . $e->getMessage();
+                }
+            }
+            // modify category if id gived
+            else{
+                try {
+                    $modifyCategoryQuery = $this -> conn->prepare("UPDATE categories SET nom_categorie = ? WHERE id_categorie = ?");
+                    $modifyCategoryQuery->execute([$category_name,$category_id]);
+
+                } catch (PDOException $e) {
+                    echo "Database Error: " . $e->getMessage();
+                }
+            }
+            
+        } 
+    }
+    // add or midfy Subcategory
+    function addModSubCat($category_id, $subcategory_name,$subcategory_id){
+        if (!empty($subcategory_name)) {
+            // create a new subcategory if id not gived
+            if($subcategory_id==0){
+                try {
+                    $AddSubCategoryQuery = $this -> conn->prepare("INSERT INTO sous_categories (nom_sous_categorie, id_categorie) VALUES (:subcategory_name, :category_id)");
+                    $AddSubCategoryQuery->execute([':subcategory_name' => $subcategory_name,':category_id' => $category_id]);
+
+
+                } catch (PDOException $e) {
+                    echo "Database Error: " . $e->getMessage();
+                }
+            }
+            // modify subcategory if id gived
+            else{
+                try {
+                    $modifySubCategoryQuery = $this -> conn->prepare("UPDATE sous_categories SET nom_sous_categorie = ? WHERE id_sous_categorie = ?");
+                    $modifySubCategoryQuery->execute([$subcategory_name,$subcategory_id]);
+
+                } catch (PDOException $e) {
+                    echo "Database Error: " . $e->getMessage();
+                }
+            }
+            
+        } 
+    }
+    // delete category
+    function deleteCat($id_categorie){
+        $deleteCategorieQuery=$this -> conn->prepare("DELETE FROM categories WHERE id_categorie=?");
+        $deleteCategorieQuery->execute([$id_categorie]);
+    }
+    // delete Subcategory
+    function deleteSubCat( $id_sous_categorie){
+        $deleteSubCategorieQuery=$this -> conn->prepare("DELETE FROM sous_categories WHERE id_sous_categorie=?");
+        $deleteSubCategorieQuery->execute([$id_sous_categorie]);
+    }
     // show projects
     function showProjects($filter_by_cat, $filter_by_sub_cat,$filter_by_status, $projectToSearch = '') {
         $query = "SELECT p.id_projet, p.titre_projet, p.description,
@@ -211,4 +274,5 @@ public function removeUser($userId){
         $removeTestimonial = $this -> conn ->prepare("DELETE FROM temoignages WHERE id_temoignage=?");
         $removeTestimonial->execute([$idtesTimonial]);
     }
+    
 }

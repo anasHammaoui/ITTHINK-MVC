@@ -99,6 +99,43 @@ class AdminController extends BaseController {
             }
             $this->renderDashboard('admin/categories',["categories"=> $categories]);
       }
+      // edit or add category
+      function addCatMod(){
+        if (isset($_GET["add_modify_category"])) {
+          $category_name = trim($_GET["category_name_input"]);
+          $category_id = isset($_GET["category_id_input"]) ? trim($_GET["category_id_input"]) : '';
+          $this -> UserModel -> addModCat($category_id,$category_name);
+          $this -> showCats();
+      } 
+      }
+      // edit or add sub category 
+      function addSubCatMod(){
+        if (isset($_GET["add_modify_subcategory"])) {
+          $subcategory_name = trim($_GET["subcategory_name_input"]);
+          $category_id = $_GET["category_parent_id_input"];
+          $subcategory_id = (int)trim($_GET["subcategory_id_input"]);
+        $this -> UserModel ->  addModSubCat($category_id, $subcategory_name,$subcategory_id);
+        $this -> showCats();
+      } 
+      }
+    function deleteCat(){
+       // delete categorie
+    if (isset($_GET["delete_categorie"])) {
+      $id_categorie=$_GET['id_categorie'];
+
+      $this -> UserModel -> deleteCat($id_categorie);
+      $this -> showCats();
+  }
+    }
+    // delete subCat
+    function deleteSubCat(){
+      // delete subcategorie
+    if (isset($_GET["delete_sub_category"])) {
+      $id_sous_categorie=$_GET['id_sub_categorie'];
+      $this -> UserModel -> deleteSubCat( $id_sous_categorie);
+      $this -> showCats();   
+  }
+    }
       // projects function 
       function projectsMethod(){
          // Get filter and search values from GET

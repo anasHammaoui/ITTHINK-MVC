@@ -32,6 +32,10 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/admin/users', [AdminController::class, 'handleUsers']);
 Route::get('/admin/categories', [AdminController::class, 'categories']);
+Route::get('/admin/categories/addmodcat', [AdminController::class, 'addCatMod']);
+Route::get('/admin/categories/addmodsubcat', [AdminController::class, 'addSubCatMod']);
+Route::get('/admin/categories/deletecat', [AdminController::class, 'deleteCat']);
+Route::get('/admin/categories/deletesubcat', [AdminController::class, 'deleteSubCat']);
 Route::get('/admin/testimonials', [AdminController::class, 'testimonials']);
 Route::get('/admin/testimonials/remove', [AdminController::class, 'removeTesti']);
 Route::get('/admin/projects', [AdminController::class, 'projectsMethod']);
@@ -47,6 +51,8 @@ Route::get('/admin/categories', [AdminController::class, 'showCats']);
 
 // client routers 
 Route::get('/client', [ClientController::class, 'index']);
+Route::get('/client/projects', [ClientController::class, 'projects']);
+Route::get('/client/projects/remove', [ClientController::class, 'removePro']);
 // client Routes 
 // Route::get('/client/dashboard', [ClientController::class, 'index']);
 
