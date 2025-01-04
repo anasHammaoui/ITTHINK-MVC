@@ -9,6 +9,7 @@ require_once '../core/Route.php';
 require_once '../app/controllers/HomeController.php';
 require_once '../app/controllers/AuthController.php';
 require_once '../app/controllers/AdminController.php';
+require_once '../app/controllers/ClientController.php';
 require_once '../app/config/db.php';
 
 
@@ -32,6 +33,7 @@ Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/admin/users', [AdminController::class, 'handleUsers']);
 Route::get('/admin/categories', [AdminController::class, 'categories']);
 Route::get('/admin/testimonials', [AdminController::class, 'testimonials']);
+Route::get('/admin/testimonials/remove', [AdminController::class, 'removeTesti']);
 Route::get('/admin/projects', [AdminController::class, 'projectsMethod']);
 Route::get('/admin/projects/remove', [AdminController::class, 'removePro']);
 Route::get('/admin/users/remove', [AdminController::class, 'removeUser']);
@@ -43,6 +45,8 @@ Route::get('/admin/categories', [AdminController::class, 'showCats']);
 
 // end admin routes 
 
+// client routers 
+Route::get('/client', [ClientController::class, 'index']);
 // client Routes 
 // Route::get('/client/dashboard', [ClientController::class, 'index']);
 

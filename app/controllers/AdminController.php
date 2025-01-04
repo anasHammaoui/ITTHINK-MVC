@@ -24,10 +24,10 @@ class AdminController extends BaseController {
 
     $this->renderDashboard('admin/categories');
    }
-   public function testimonials() {
+  //  public function testimonials() {
  
-    $this->renderDashboard('admin/testimonials');
-   }
+  //   $this->renderDashboard('admin/testimonials');
+  //  }
    public function projects() {
   
     $this->renderDashboard('admin/projects');
@@ -121,6 +121,32 @@ class AdminController extends BaseController {
             $this->renderDashboard('admin/projects');
         }
       }
- 
+      // testimonials
+      function testimonials(){
+        // Determine role based on the file name
+    $scriptName = basename($_SERVER['SCRIPT_NAME']);
+    $role = '';
+    if (strstr($scriptName, "freelancer")) {
+        $role = 'Freelancer';
+    } elseif (strstr($scriptName, "client")) {
+        $role = 'Client';
+    } elseif (strstr($scriptName, "admin")) {
+        $role = 'Admin';
+    }
 
+    // Fetch the testimonials
+    $userId = $_SESSION['user_loged_in_id'] ?? null; // Use null for Admin
+    $clientTestimonials = $this -> UserModel -> getClientTestimonials( $role, $userId);
+    $this -> renderDashboard('admin/testimonials', ["clientTestimonials" => $clientTestimonials ]);
+      }
+      // removet testi
+      function removeTesti(){
+          // check the get request to remove the user
+    if ( isset($_GET['remove_testimonial'])) {
+      $idtesTimonial = $_GET['id_temoignage'];
+     $this -> UserModel -> removeTestimonial($idtesTimonial);
+      // Redirect to avoid form resubmission after page reload
+      $this -> renderDashboard('admin/testimonials');
+  }
+      }
 }

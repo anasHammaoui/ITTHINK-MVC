@@ -47,7 +47,7 @@ class AuthController extends BaseController {
                  if ($lastInsertId && $role == 1) {
                      header('Location: /admin');
                  } else if ($lastInsertId && $role == 2) {
-                     header('Location: client/dashboard');
+                     header('Location: /client');
                  } else if ($lastInsertId && $role == 3) {
                      header('Location: freelancer/dashboard');
                  }                    
@@ -75,7 +75,7 @@ class AuthController extends BaseController {
               if ($user && $role == 1) {
                   header('Location: /admin');
               } else if ($user && $role == 2) {
-                  header('Location: Client/dashboard.php');
+                  header('Location: /client');
               } else if ($user && $role == 3) {
                   header('Location: Freelancer/dashboard.php');
               } 
