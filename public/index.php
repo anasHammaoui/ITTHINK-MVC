@@ -23,6 +23,7 @@ Route::setRouter($router);
 // auth routes 
 Route::get('/register', [AuthController::class, 'showRegister']);
 Route::post('/register', [AuthController::class, 'handleRegister']);
+Route::get('/', [AuthController::class, 'showleLogin']);
 Route::get('/login', [AuthController::class, 'showleLogin']);
 Route::post('/login', [AuthController::class, 'handleLogin']);
 Route::post('/logout', [AuthController::class, 'logout']);
