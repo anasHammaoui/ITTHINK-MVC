@@ -93,5 +93,34 @@ class ClientController extends BaseController{
             }
         }
     }
+    // :testimonials client 
+    function testimonnialsClinet(){
+         // Determine role based on the file name
+    $scriptName = basename($_SERVER['SCRIPT_NAME']);
+    $role = '';
+    if (strstr($scriptName, "freelancer")) {
+        $role = 'Freelancer';
+    } elseif (strstr($scriptName, "client")) {
+        $role = 'Client';
+    } elseif (strstr($scriptName, "admin")) {
+        $role = 'Admin';
+    }
+
+    // Fetch the testimonials
+    $userId = $_SESSION['user_loged_in_id'] ?? null; // Use null for Admin
+    $clientTestimonials = $this -> UserModel -> getLogClientTesti( $role, $userId);
+    // var_dump("hi");
+    $this -> renderDashboard("client/testimonials",["clientTestimonials"=>$clientTestimonials]);
+    }
+    // remove testimonials
+    function removeTestimonial(){
+           // check the post request to remove the user
+    if ( isset($_GET['remove_testimonial'])) {
+        $idtesTimonial = $_GET['id_temoignage'];
+        $this -> UserModel ->removeTestimonial($idtesTimonial);
+        // Redirect to avoid form resubmission after page reload
+        $this -> testimonnialsClinet();
+    }
+    }
 }
 ?>

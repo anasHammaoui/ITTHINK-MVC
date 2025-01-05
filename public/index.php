@@ -57,6 +57,9 @@ Route::get('/client/projects/addmodproject', [ClientController::class, 'addModPr
 Route::get('/client/offers', [ClientController::class, 'clientOffer']);
 Route::get('/client/offers/accept', [ClientController::class, 'acceptOffer']);
 Route::get('/client/offers/addTesti', [ClientController::class, 'addTesti']);
+Route::get('/client/testimonials', [ClientController::class, 'testimonnialsClinet']);
+Route::get('/client/testimonials/edit', [ClientController::class, 'addTesti']);
+Route::get('/client/testimonials/remove', [ClientController::class, 'removeTestimonial']);
 // client Routes 
 // Route::get('/client/dashboard', [ClientController::class, 'index']);
 

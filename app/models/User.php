@@ -357,4 +357,30 @@ public function removeUser($userId){
             echo "Testimonial updated successfully.";
         }
     }
+    // get client testimonials
+    function getLogClientTesti( $role, $userId = null) {
+        // Base query
+        $queryStr = "SELECT p.titre_projet, t.commentaire, t.id_temoignage, o.montant, o.delai, o.id_offre
+                    FROM temoignages t
+                    JOIN offres o ON t.id_offre = o.id_offre
+                    JOIN projets p ON o.id_projet = p.id_projet";
+
+        // Modify query based on the role
+        $params = [];
+        if ($role === 'Freelancer') {
+            $queryStr .= " WHERE o.id_utilisateur = ?";
+            $params[] = $userId;
+        } elseif ($role === 'Client') {
+            $queryStr .= " WHERE p.id_utilisateur = ?";
+            $params[] = $userId;
+        }
+        // Admin has no additional conditions, so no modification to the query
+
+        // Prepare and execute the query
+        $query = $this -> conn->prepare($queryStr);
+        $query->execute($params);
+
+        // Fetch and return results
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
